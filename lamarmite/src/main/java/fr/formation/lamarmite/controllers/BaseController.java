@@ -51,8 +51,7 @@ public abstract class BaseController {
 		new PropertyEditorSupport() {
 
 		    @Override
-		    public void setAsText(String text)
-			    throws IllegalArgumentException {
+		    public void setAsText(String text) {
 			if (null != text && !text.isEmpty()) {
 			    setValue(LocalDate.parse(text,
 				    DateTimeFormatter.ofPattern(datePattern)));
@@ -60,7 +59,7 @@ public abstract class BaseController {
 		    }
 
 		    @Override
-		    public String getAsText() throws IllegalArgumentException {
+		    public String getAsText() {
 			LocalDate value = (LocalDate) getValue();
 			if (null == value) {
 			    return null;
