@@ -5,9 +5,9 @@ import java.util.*;
 public enum AppLanguage {
     FR(Locale.FRENCH, "dd/MM/yyyy"), EN(Locale.ENGLISH, "MM/dd/yyyy");
 
-    public final static String CODE = "lang";
+    public static final String CODE = "lang";
 
-    private final static Map<Locale, AppLanguage> LOCALES;
+    private static final Map<Locale, AppLanguage> LOCALES;
     static {
 	LOCALES = new HashMap<>();
 	LOCALES.put(Locale.FRENCH, AppLanguage.FR);
