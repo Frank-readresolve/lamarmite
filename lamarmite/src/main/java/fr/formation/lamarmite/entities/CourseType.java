@@ -10,11 +10,11 @@ public class CourseType implements Serializable {
 
     private static final long serialVersionUID = -3416208634504083069L;
 
-    public final static String STARTER_CODE = "A";
+    public static final String STARTER_CODE = "A";
 
-    public final static String MAIN_COURSE_CODE = "B";
+    public static final String MAIN_COURSE_CODE = "B";
 
-    public final static String DESSERT_CODE = "C";
+    public static final String DESSERT_CODE = "C";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
