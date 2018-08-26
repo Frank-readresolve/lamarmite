@@ -7,7 +7,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @ImportResource("classpath:*-context.xml")
 @ComponentScan(basePackages = { "fr.formation.lamarmite.repositories",
-	"fr.formation.lamarmite.services" })
+	"fr.formation.lamarmite.services",
+	"fr.formation.lamarmite.components" })
 @EnableJpaRepositories("fr.formation.lamarmite.repositories")
 @EnableTransactionManagement
 public class AppConfig {

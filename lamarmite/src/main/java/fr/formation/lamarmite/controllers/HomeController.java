@@ -2,7 +2,10 @@ package fr.formation.lamarmite.controllers;
 
 import java.util.List;
 
+import org.springframework.batch.core.*;
+import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,9 +29,20 @@ public class HomeController extends BaseController {
     }
 
     @GetMapping("/welcome")
-    public String welcome(Model model) {
+    public String welcome(Model model) throws Exception {
+	executeJob();
 	populateModel(model);
 	return "welcome";
+    }
+
+    @Autowired
+    private ApplicationContext applicationContext;
+
+    private void executeJob() throws Exception {
+	JobLauncher jobLauncher = (JobLauncher) applicationContext
+		.getBean("jobLauncher");
+	Job importUserJob = (Job) applicationContext.getBean("importUserJob");
+	jobLauncher.run(importUserJob, new JobParameters());
     }
 
     private void populateModel(Model model) {
