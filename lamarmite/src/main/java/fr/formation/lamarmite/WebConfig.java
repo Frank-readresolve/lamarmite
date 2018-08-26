@@ -10,7 +10,7 @@ import org.springframework.web.servlet.i18n.*;
 import org.springframework.web.servlet.view.*;
 
 @Configuration
-@Import(value = { AppConfig.class })
+@Import(value = { AppConfig.class, SecurityConfig.class })
 @EnableWebMvc
 @ComponentScan("fr.formation.lamarmite.controllers")
 public class WebConfig implements WebMvcConfigurer {
@@ -57,7 +57,7 @@ public class WebConfig implements WebMvcConfigurer {
     public CookieLocaleResolver localeResolver() {
 	CookieLocaleResolver resolver = new CookieLocaleResolver();
 	resolver.setCookieName(AppLanguage.CODE);
-	resolver.setDefaultLocale(AppLanguage.FR.getLocale());
+	resolver.setDefaultLocale(AppLanguage.getDefault().getLocale());
 	return resolver;
     }
 

@@ -14,6 +14,7 @@
 		<section>
 			<h1 class="text-primary"><spring:message code="entities.course.create.title" /></h1>
 			<form:form action="create" method="POST" modelAttribute="course">
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 				<div class="form-row">
 					<div class="form-group col">
 						<form:label path="frenchName"><spring:message code="entities.course.frenchName" /><span class="text-danger"><spring:message code="commons.symbols.required" /></span></form:label>

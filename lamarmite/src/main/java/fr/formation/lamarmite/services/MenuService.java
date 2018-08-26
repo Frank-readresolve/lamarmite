@@ -3,6 +3,7 @@ package fr.formation.lamarmite.services;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
 import fr.formation.lamarmite.AppLanguage;
@@ -44,6 +45,7 @@ public class MenuService implements IMenuService {
 	return menuRepository.findAllAsDTO(lang);
     }
 
+    @Secured("ROLE_ADMIN")
     @Override
     public void deleteById(Long id) {
 	menuJpaRepository.deleteById(id);

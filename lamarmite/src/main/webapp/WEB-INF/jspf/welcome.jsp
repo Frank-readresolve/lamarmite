@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html>
 <html lang="${pageContext.response.locale.language}">
 <head>
@@ -53,7 +54,9 @@
 							<th><spring:message code="home.welcome.menus.price" /></th>
 							<th><spring:message code="home.welcome.menus.name" /></th>
 							<th><spring:message code="commons.symbols.nbsp" /></th>
-							<th><spring:message code="commons.symbols.nbsp" /></th>
+							<sec:authorize access="hasRole('ROLE_ADMIN')">
+								<th><spring:message code="commons.symbols.nbsp" /></th>
+							</sec:authorize>
 						</tr>
 					</thead>
 					<tbody>
@@ -64,7 +67,9 @@
 								<td><spring:message code="commons.symbols.euro" />${menu.price}</td>
 								<td>${menu.name}</td>
 								<td><a href="<c:url value="/menus/toUpdate?id=${menu.id}" />"><spring:message code="home.welcome.menus.update" /></a></td>
-								<td><a href="<c:url value="/menus/delete/${menu.id}" />"><spring:message code="home.welcome.menus.delete" /></a></td>
+								<sec:authorize access="hasRole('ROLE_ADMIN')">
+									<td><a href="<c:url value="/menus/delete/${menu.id}" />"><spring:message code="home.welcome.menus.delete" /></a></td>
+								</sec:authorize>
 							</tr>
 						</c:forEach>
 					</tbody>

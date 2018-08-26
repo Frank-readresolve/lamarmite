@@ -3,20 +3,44 @@ package fr.formation.lamarmite.controllers;
 import java.beans.PropertyEditorSupport;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Locale;
+import java.util.*;
 
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.security.core.*;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 
-import fr.formation.lamarmite.AppLanguage;
+import fr.formation.lamarmite.*;
+import fr.formation.lamarmite.entities.User;
+import fr.formation.lamarmite.entities.User.Role;
 
 public abstract class BaseController {
 
     protected BaseController() {
 	//
+    }
+
+    protected static Role getRole() {
+	return getUser().getRole();
+    }
+
+    protected static User getUser() {
+	return getPrincipal().getUser();
+    }
+
+    protected static Principal getPrincipal() {
+	return (Principal) getAuthentication().getPrincipal();
+    }
+
+    protected static Collection<? extends GrantedAuthority> getAuthorities() {
+	return getAuthentication().getAuthorities();
+    }
+
+    protected static Authentication getAuthentication() {
+	return SecurityContextHolder.getContext().getAuthentication();
     }
 
     protected static Locale getLocale() {

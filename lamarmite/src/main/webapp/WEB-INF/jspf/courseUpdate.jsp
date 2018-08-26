@@ -14,6 +14,7 @@
 		<section>
 			<h1 class="text-primary"><spring:message code="entities.course.update.title" /></h1>
 			<form:form action="update" method="POST" modelAttribute="course">
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 			<form:hidden path="id" />
 			<form:hidden path="code"/>
 				<div class="form-row">
@@ -40,7 +41,7 @@
 				</div>
 			 	<div class="form-row">
 					<div class="form-group col">
-						<form:label path="code"><spring:message code="entities.course.code" /><span class="text-danger"></form:label>
+						<form:label path="code"><spring:message code="entities.course.code" /></form:label>
 						<form:input path="code" maxlength="4" cssClass="form-control" disabled="true" autocomplete="off" />
 					</div>
 					<div class="form-group col">

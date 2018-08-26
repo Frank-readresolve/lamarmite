@@ -14,6 +14,7 @@
 		<section>
 			<h1 class="text-primary"><spring:message code="entities.menu.update.title" /></h1>
 			<form:form action="update" method="POST" modelAttribute="menu">
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 			<form:hidden path="id" />
 				<div class="form-row">
 					<div class="form-group col">

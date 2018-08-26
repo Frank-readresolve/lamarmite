@@ -14,6 +14,7 @@
 		<section>
 			<h1 class="text-primary"><spring:message code="entities.menu.create.title" /></h1>
 			<form:form action="create" method="POST" modelAttribute="menu">
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 				<div class="form-row">
 					<div class="form-group col">
 						<form:label path="starter.id"><spring:message code="entities.menu.starter" /><span class="text-danger"><spring:message code="commons.symbols.required" /></span></form:label>
