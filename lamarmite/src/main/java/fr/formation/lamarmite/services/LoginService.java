@@ -19,8 +19,7 @@ public class LoginService implements ILoginService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username)
-	    throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) {
 	User user = userJpaRepo.findByEmail(username);
 	if (null == user) {
 	    throw new UsernameNotFoundException(
