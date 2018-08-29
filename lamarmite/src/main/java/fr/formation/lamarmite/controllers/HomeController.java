@@ -30,7 +30,7 @@ public class HomeController extends BaseController {
 
     @GetMapping("/welcome")
     public String welcome(Model model) throws Exception {
-	// executeJob();
+	executeJob();
 	populateModel(model);
 	return "welcome";
     }

@@ -13,7 +13,7 @@
 	<div class="container-fluid">
 		<section>
 			<h1 class="text-primary">
-				<spring:message code="login.title" /> c'est bientôt la fin !
+				<spring:message code="login.title" />
 			</h1>
 			<form method="POST" action="<c:url value="/login" />">
 				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
