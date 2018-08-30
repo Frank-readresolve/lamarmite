@@ -11,27 +11,50 @@
 			<li class="nav-item"><a class="nav-link" href="<c:url value="/courses/toCreate" />"><spring:message code="commons.nav.course" /></a></li>
 			<li class="nav-item"><a class="nav-link" href="<c:url value="/menus/toCreate" />"><spring:message code="commons.nav.menu" /></a></li>
         </sec:authorize>
+        <sec:authorize access="hasRole('ROLE_ADMIN')">
+	        <li class="nav-item dropdown">
+		        <a class="nav-link dropdown-toggle" href="#" id="adminNavbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<spring:message code="commons.nav.admin" />
+		        </a>
+		        <div class="dropdown-menu" aria-labelledby="adminNavbarDropdown">
+					<a class="dropdown-item" href="<c:url value="/jobs/importCivilities" />">
+						<spring:message code="commons.nav.admin.civilitiesJob" />
+					</a>
+					<a class="dropdown-item" href="<c:url value="/jobs/importUsers" />">
+						<spring:message code="commons.nav.admin.usersJob" />
+					</a>
+		        </div>
+	        </li>
+       </sec:authorize>
         <li class="nav-item dropdown">
-	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	        <a class="nav-link dropdown-toggle" href="#" id="languagesNavbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				<spring:message code="commons.nav.languages" />
 	        </a>
-	        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+	        <div class="dropdown-menu" aria-labelledby="languagesNavbarDropdown">
+	        
 	        	<c:set var="langBaseUrl" value="/security/login" />
-	        	<sec:authorize access="isAuthenticated()"><c:set var="langBaseUrl" value="/home/welcome" /></sec:authorize>
+	        	<sec:authorize access="isAuthenticated()">
+	        		<c:set var="langBaseUrl" value="/home/welcome" />
+	        	</sec:authorize>
+	        	
 				<a class="dropdown-item" href="<c:url value="${langBaseUrl}?lang=fr" />"><spring:message code="commons.nav.languages.french" /></a>
 				<a class="dropdown-item" href="<c:url value="${langBaseUrl}?lang=en" />"><spring:message code="commons.nav.languages.english" /></a>
 	        </div>
         </li>
         <sec:authorize access="isAuthenticated()">
         	<li class="nav-item dropdown">
-		        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		        <a class="nav-link dropdown-toggle" href="#" id="userNavbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					<sec:authentication property="principal.user.firstname" />
 		        </a>
-		        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-					<a class="dropdown-item" href="<c:url value="/users/toUpdate" />"><spring:message code="commons.nav.settings.account" /></a>
-					<a class="dropdown-item" href="<c:url value="/logout" />"><spring:message code="commons.nav.settings.logout" /></a>
+		        <div class="dropdown-menu" aria-labelledby="userNavbarDropdown">
+					<a class="dropdown-item" href="<c:url value="/users/toUpdate" />">
+						<spring:message code="commons.nav.settings.account" />
+					</a>
+					<a class="dropdown-item" href="<c:url value="/logout" />">
+						<spring:message code="commons.nav.settings.logout" />
+					</a>
 		        </div>
 	        </li>
-        </sec:authorize>
+	   </sec:authorize>
 	</ul>
 </nav>

@@ -9,9 +9,9 @@ import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.i18n.*;
 import org.springframework.web.servlet.view.*;
 
-@Configuration
 @Import(value = { AppConfig.class, SecurityConfig.class, BatchConfig.class })
 @EnableWebMvc
+@Configuration
 @ComponentScan("fr.formation.lamarmite.controllers")
 public class WebConfig implements WebMvcConfigurer {
 

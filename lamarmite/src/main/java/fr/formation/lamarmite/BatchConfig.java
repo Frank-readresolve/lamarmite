@@ -18,7 +18,7 @@ import org.springframework.context.annotation.*;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 
-import fr.formation.lamarmite.entities.User;
+import fr.formation.lamarmite.entities.*;
 
 @Configuration
 @EnableBatchProcessing
@@ -32,14 +32,18 @@ public class BatchConfig {
 
     private final FieldSetMapper<User> userMapper;
 
+    private final FieldSetMapper<Civility> civilityMapper;
+
     @Autowired
     protected BatchConfig(EntityManagerFactory emf, DataSource dataSource,
 	    JpaTransactionManager transactionManager,
-	    FieldSetMapper<User> userMapper) {
+	    FieldSetMapper<User> userMapper,
+	    FieldSetMapper<Civility> civilityMapper) {
 	this.emf = emf;
 	this.dataSource = dataSource;
 	this.transactionManager = transactionManager;
 	this.userMapper = userMapper;
+	this.civilityMapper = civilityMapper;
     }
 
     @Bean
@@ -53,46 +57,10 @@ public class BatchConfig {
     }
 
     @Bean
-    public FlatFileItemReader<User> importUserReader() {
-	FlatFileItemReader<User> reader = new FlatFileItemReader<>();
-	reader.setResource(new ClassPathResource("users.csv"));
-	reader.setLinesToSkip(1);
-	DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
-	tokenizer.setNames("civility_code", "lastname", "firstname", "email",
-		"password", "role");
-	DefaultLineMapper<User> lineMapper = new DefaultLineMapper<>();
-	lineMapper.setFieldSetMapper(userMapper);
-	lineMapper.setLineTokenizer(tokenizer);
-	reader.setLineMapper(lineMapper);
-	return reader;
-    }
-
-    @Bean
     public JpaItemWriter<String> writer() {
 	JpaItemWriter<String> writer = new JpaItemWriter<>();
 	writer.setEntityManagerFactory(emf);
 	return writer;
-    }
-
-    @Bean
-    public Job importUserJob(JobExecutionListener listener) throws Exception {
-	return jobBuilderFactory().get("importUserJob")
-		.incrementer(new RunIdIncrementer()).listener(listener)
-		.flow(importUserStep()).end().build();
-    }
-
-    @Bean
-    public Step importUserStep() throws Exception {
-	return stepBuilderFactory().get("importUserStep")
-		.<User, String>chunk(10).reader(importUserReader())
-		.writer(writer()).build();
-    }
-
-    @Bean
-    public JobLauncher jobLauncher() throws Exception {
-	SimpleJobLauncher jobLauncher = new SimpleJobLauncher();
-	jobLauncher.setJobRepository(jobRepository());
-	return jobLauncher;
     }
 
     @Bean
@@ -101,6 +69,13 @@ public class BatchConfig {
 	factoryBean.setTransactionManager(transactionManager);
 	factoryBean.setDataSource(dataSource);
 	return factoryBean.getObject();
+    }
+
+    @Bean
+    public JobLauncher jobLauncher() throws Exception {
+	SimpleJobLauncher jobLauncher = new SimpleJobLauncher();
+	jobLauncher.setJobRepository(jobRepository());
+	return jobLauncher;
     }
 
     @Bean
@@ -119,5 +94,63 @@ public class BatchConfig {
 			"Job ended with status: " + jobExecution.getStatus());
 	    }
 	};
+    }
+
+    @Bean
+    public FlatFileItemReader<User> importUserReader() {
+	FlatFileItemReader<User> reader = new FlatFileItemReader<>();
+	reader.setResource(new ClassPathResource("users.csv"));
+	reader.setLinesToSkip(1);
+	DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
+	tokenizer.setNames("civility_code", "lastname", "firstname", "email",
+		"password", "role");
+	DefaultLineMapper<User> lineMapper = new DefaultLineMapper<>();
+	lineMapper.setFieldSetMapper(userMapper);
+	lineMapper.setLineTokenizer(tokenizer);
+	reader.setLineMapper(lineMapper);
+	return reader;
+    }
+
+    @Bean
+    public FlatFileItemReader<Civility> importCivilityReader() {
+	FlatFileItemReader<Civility> reader = new FlatFileItemReader<>();
+	reader.setResource(new ClassPathResource("civilities.csv"));
+	reader.setLinesToSkip(1);
+	DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
+	tokenizer.setNames("code", "abbreviationEn", "abbreviationFr");
+	DefaultLineMapper<Civility> lineMapper = new DefaultLineMapper<>();
+	lineMapper.setFieldSetMapper(civilityMapper);
+	lineMapper.setLineTokenizer(tokenizer);
+	reader.setLineMapper(lineMapper);
+	return reader;
+    }
+
+    @Bean
+    public Job importUsersJob(JobExecutionListener listener) throws Exception {
+	return jobBuilderFactory().get("importUsersJob")
+		.incrementer(new RunIdIncrementer()).listener(listener)
+		.flow(importUsersStep()).end().build();
+    }
+
+    @Bean
+    public Step importUsersStep() throws Exception {
+	return stepBuilderFactory().get("importUsersStep")
+		.<User, String>chunk(10).reader(importUserReader())
+		.writer(writer()).build();
+    }
+
+    @Bean
+    public Job importCivilitiesJob(JobExecutionListener listener)
+	    throws Exception {
+	return jobBuilderFactory().get("importCivilitiesJob")
+		.incrementer(new RunIdIncrementer()).listener(listener)
+		.flow(imporCivilitiesStep()).end().build();
+    }
+
+    @Bean
+    public Step imporCivilitiesStep() throws Exception {
+	return stepBuilderFactory().get("imporCivilitiesStep")
+		.<Civility, String>chunk(10).reader(importCivilityReader())
+		.writer(writer()).build();
     }
 }

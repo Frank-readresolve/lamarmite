@@ -1,7 +1,2 @@
 civility_code,lastname,firstname,email,password,role
-A,DUPONT,Martine,martinedupont@domain.com,123*,ROLE_USER
-B,DUPONT,Michelle,michelledupont@domain.com,123*,ROLE_USER
-C,DUPONT,Robert,robertdupont@domain.com,123*,ROLE_USER
-A,DURAND,Martine,martinedurand@domain.com,123*,ROLE_ADMIN
-B,DURAND,Michelle,michelledurand@domain.com,123*,ROLE_ADMIN
-C,DURAND,Robert,robertdurand@domain.com,123*,ROLE_ADMIN
+C,MARSHALL,Frank,fggd.marshall@gmail.com,123*,ROLE_USER
